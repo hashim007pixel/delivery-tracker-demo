@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delivery Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Track Your Delivery</h1>
+    <input type="text" id="invoiceInput" placeholder="Enter Invoice Number" />
+    <button onclick="track()">Track</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Delivery Status</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Delivery Status</h1>
+    <p id="statusText">Fetching status...</p>
+  </div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const invoice = urlParams.get("invoice");
+    const statusText = document.getElementById("statusText");
+
+    // Dummy status data — later we can connect to Firebase
+    const dummyStatus = {
+      "INV123": "Out for delivery",
+      "INV456": "Delivered",
+      "INV789": "At warehouse",
+    };
+
+    if (invoice && dummyStatus[invoice]) {
+      statusText.innerText = `Invoice ${invoice}: ${dummyStatus[invoice]}`;
+    } else {
+      statusText.innerText = `Invoice ${invoice || "N/A"} not found.`;
+    }
+  </script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+}
+
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #0284c7;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0369a1;
+}
+function track() {
+  const invoice = document.getElementById("invoiceInput").value.trim();
+  if (invoice) {
+    window.location.href = `track.html?invoice=${encodeURIComponent(invoice)}`;
+  } else {
+    alert("Please enter an invoice number.");
+  }
+}
